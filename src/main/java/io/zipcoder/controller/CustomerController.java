@@ -10,18 +10,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.inject.Inject;
 
+// not concerned with logic
+// request deferred to the service which takes care of the logic
+// receive requests and map them
 
 @RestController
 public class CustomerController {
 
-    @Autowired
+    @Inject
     private CustomerService customerService;
 
     @RequestMapping(value="/accounts/{customerId}/customer", method = RequestMethod.GET)
     public ResponseEntity<Customer> lookUpByAccountId(@PathVariable long accountId) {
         Customer result = customerService.findByAccountId(accountId);
-        return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @RequestMapping(value="/customers", method = RequestMethod.GET)
